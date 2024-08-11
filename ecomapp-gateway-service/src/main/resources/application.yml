@@ -1,0 +1,58 @@
+spring:
+
+  application:
+    name: ecomapp-gateway-service
+  threads:
+    virtual:
+      enabled: true
+  cloud:
+     gateway:
+       mvc:
+          routesMap:
+            configRoute1:
+              # http://localhost:8111/bankingapp/api/accounts -> http://localhost:8091/accounts
+              uri: lb://ecomapp-product-service
+              predicates:
+                - Path=/ecomapp/api/products/**
+              filters:
+                  - StripPrefix=2
+            configRoute2:
+              # http://localhost:8111/bankingapp/api/transactions -> http://localhost:8092/transactions
+              uri: lb://ecomapp-category-service
+              predicates:
+                - Path=/ecomapp/api/categories/**
+              filters:
+                    - StripPrefix=2
+server:
+  port: 8111
+
+# JWT Security Secret
+security:
+  jwt:
+    secret-key: springsecurityjwtsecret
+    token-duration: 1D
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://${REGISTRY_SERVER_HOST:localhost}:8761/eureka
+    registerWithEureka: true
+    fetchRegistry: true
+
+# Logging
+logging:
+  level:
+    org.springframework.cloud.gateway.server.mvc: TRACE
+    org.springframework.web: TRACE
+
+# Actuator Endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+

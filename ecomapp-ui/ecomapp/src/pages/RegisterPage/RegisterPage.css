@@ -1,0 +1,16 @@
+.register-page
+{
+    background-color: #dfa6cdeb;
+}
+.register-form
+{
+    border-style: solid;
+    border-color: #ae4b8feb;
+    background-color: #cbe8ef;
+}
+
+.register-text
+{
+    border-bottom: 1px solid;
+    margin-bottom: 5%;
+}

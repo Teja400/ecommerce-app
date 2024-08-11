@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: ecomapp-product-service
+  threads:
+    virtual:
+      enabled: true
+  data: #MongoDB Server Configuration
+    mongodb:
+      host: db
+      port: 27017
+      username: mongo
+      password: mongo
+      database: myDB
+      authentication-database: admin
+server:
+  port: 8082
+
+#
+## JWT Security Secret
+#security:
+#  jwt:
+#    secret-key: springsecurityjwtsecret
+#    token-duration: 1D
+
+# Eureka Client
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://${REGISTRY_SERVER_HOST:localhost}:8761/eureka
+    registerWithEureka: true
+    fetchRegistry: true

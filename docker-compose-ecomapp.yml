@@ -1,0 +1,85 @@
+version: '3.8'
+services:
+  ecomapp-registry-service:
+    image: ecomapp/ecomapp-registry-service
+    container_name: ecomapp-registry-service
+    ports:
+      - 8761:8761
+    networks:
+      - ecomapp
+  db:
+    image: mongo:latest
+    container_name: mongodb
+    # restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=mongo
+      - MONGO_INITDB_DATABASE=myDB
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - ecomapp
+
+  ecomapp-auth-service:
+    image: ecomapp/ecomapp-auth-service
+    container_name: ecomapp-auth-service
+    ports:
+      - 7070:7070
+    depends_on:
+      - ecomapp-registry-service
+      - db
+    networks:
+      - ecomapp
+    environment:
+      REGISTRY_SERVER_HOST: ecomapp-registry-service
+
+  ecomapp-gateway-service:
+    image: ecomapp/ecomapp-gateway-service
+    container_name: ecomapp-gateway-service
+    ports:
+      - 8111:8111
+    depends_on:
+      - ecomapp-registry-service
+      - ecomapp-auth-service
+    networks:
+      - ecomapp
+    environment:
+      REGISTRY_SERVER_HOST: ecomapp-registry-service
+
+ 
+
+  ecomapp-product-service:
+    image: ecomapp/ecomapp-product-service
+    container_name: ecomapp-product-service
+    ports:
+      - 8082:8082
+    depends_on:
+      - ecomapp-gateway-service
+      - ecomapp-registry-service
+      - db
+    networks:
+      - ecomapp
+    environment:
+      REGISTRY_SERVER_HOST: ecomapp-registry-service
+
+
+  ecomapp-category-service:
+    image: ecomapp/ecomapp-category-service
+    container_name: ecomapp-category-service
+    ports:
+      - 8083:8083
+    depends_on:
+      - ecomapp-gateway-service
+      - ecomapp-registry-service
+      - db
+    networks:
+      - ecomapp
+    environment:
+      REGISTRY_SERVER_HOST: ecomapp-registry-service
+
+networks:
+  ecomapp:
+volumes:
+  mongodata:

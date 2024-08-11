@@ -1,0 +1,112 @@
+/* .card-link :hover
+{
+    text-decoration: wavy;
+    color: blue;
+} */
+
+.product-link:hover{
+    color: #b06f46;
+}
+
+.product-link
+{
+    text-decoration: none;
+    color: #b17854;
+}
+.products-page
+{
+    background-color: #e6f2f2;
+    margin-top: 2.2%;
+}
+
+.product-card
+{
+    background-color: #fae8dd;
+    border: 1.5px solid #b58363;
+}
+
+.product-card-body
+{
+    border-top: 1.5px solid;
+    border-color: #fbb68c;
+
+}
+
+.products-text
+{
+    background-color: #afdadf;
+    color: #042f34;
+    border-bottom: 1px solid #59a7b0;;
+}
+
+
+/* Product Edit Form */
+.product-edit-form
+{
+    background-color: #EBC49F;
+    border: 2px solid;
+    border-color: #956538;
+}
+
+/* Product Details */
+.product-detail
+{
+    padding-bottom: 10%;
+    margin-top: 13%;
+}
+
+.product-detail-card
+{
+    border: 1.5px solid #c5a48f;
+    width: 85%;
+}
+
+/* Product Add Form */
+.product-add-form
+{
+    background-color: #a7c99f;
+    border: 2px solid;
+    border-color: #24940b
+}
+
+
+/* Product Link Form */
+.product-link-form
+{
+    background-color: #dda8b0;
+    border: 2px solid;
+    border-color: #d17684;
+}
+
+/* Product Cart */
+.cart-header
+{
+    background-color: #f3a5a5;
+}
+
+.cart-body
+{
+    background-color: #f5ebff;
+
+}
+
+
+
+/* All Buttons */
+@media (max-width: 768px) {
+    .btn-responsive {
+      padding:2px 4px;
+      font-size:90%;
+      line-height: 1;
+      border-radius:3px;
+    }
+  }
+  
+  @media (min-width: 769px) and (max-width: 992px) {
+    .btn-responsive {
+      padding:4px 9px;
+      font-size:95%;
+      line-height: 1.2;
+    }
+  }
+  

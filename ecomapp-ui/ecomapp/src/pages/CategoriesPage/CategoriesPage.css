@@ -1,0 +1,88 @@
+/* .card-link :hover
+{
+    text-decoration: wavy;
+    color: blue;
+} */
+
+.category-link:hover{
+    color: #435e70;
+}
+
+.category-link
+{
+    text-decoration: none;
+    color: #344955;
+}
+.categories-page
+{
+    background-color: #d1e3c7;
+    margin-top: 2.2%;
+}
+
+.category-card
+{
+    background-color: #b2c1d8;
+    border: 1.5px solid #4b607f;
+    /* font-weight: ; */
+}
+
+.category-page-card
+{
+    border-top: 1.5px solid;
+    border-color: #3a4c67;
+
+}
+
+.categories-text
+{
+    background-color: #344955;
+    color: #F5E8DD;
+    border-bottom: 1px solid #59a7b0;;
+}
+
+
+/* category Edit Form */
+.category-edit-form
+{
+    background-color: #EBC49F;
+    border: 2px solid;
+    border-color: #956538;
+}
+
+/* category Details */
+.category-detail
+{
+    padding-bottom: 10%;
+    margin-top: 13%;
+}
+
+.category-detail-card
+{
+    border: 1.5px solid #448457;
+    width: 85%;
+}
+
+/* category Add Form */
+.category-add-form
+{
+    background-color: #eef094;
+    border: 2px solid;
+    border-color: #65730a
+}
+/* All Buttons */
+@media (max-width: 768px) {
+    .btn-responsive {
+      padding:2px 4px;
+      font-size:90%;
+      line-height: 1;
+      border-radius:3px;
+    }
+  }
+  
+  @media (min-width: 769px) and (max-width: 992px) {
+    .btn-responsive {
+      padding:4px 9px;
+      font-size:95%;
+      line-height: 1.2;
+    }
+  }

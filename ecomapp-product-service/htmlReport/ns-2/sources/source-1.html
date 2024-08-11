@@ -1,0 +1,221 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ProductServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.blueyonder.ecomapp.service</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductServiceImpl (com.blueyonder.ecomapp.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (38/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.blueyonder.ecomapp.service;
+&nbsp;
+&nbsp;import com.blueyonder.ecomapp.dao.ProductRepository;
+&nbsp;import com.blueyonder.ecomapp.exception.ProductException;
+&nbsp;import com.blueyonder.ecomapp.model.Category;
+&nbsp;import com.blueyonder.ecomapp.model.Product;
+&nbsp;import com.blueyonder.ecomapp.model.ProductWithCategory;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.web.client.RestTemplate;
+&nbsp;
+&nbsp;import java.lang.reflect.Field;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import java.util.Collection;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class ProductServiceImpl implements ProductService</b>
+&nbsp;{
+<b class="fc">&nbsp;    private static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);</b>
+&nbsp;    @Autowired
+&nbsp;    private ProductRepository productRepository;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int createProduct(Product product) {
+<b class="fc">&nbsp;        return productRepository.save(product).getId();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Product viewProduct(int id) {
+<b class="fc">&nbsp;       return productRepository.findById(id).orElse(null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Collection&lt;Product&gt; listProducts() {
+<b class="fc">&nbsp;        return productRepository.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean updateProduct(int id, Product product) {
+<b class="fc">&nbsp;        Product productForUpdate = productRepository.findById(id).orElse(null);</b>
+<b class="fc">&nbsp;        if(productForUpdate == null) return false;</b>
+<b class="fc">&nbsp;        product.setId(id);</b>
+<b class="fc">&nbsp;        productRepository.save(product);</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean deleteProduct(int id)
+&nbsp;    {
+<b class="fc">&nbsp;        Product productForDelete = productRepository.findById(id).orElse(null);</b>
+<b class="fc">&nbsp;        if(productForDelete == null) return false;</b>
+<b class="fc">&nbsp;        productRepository.deleteById(id);</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Collection&lt;Product&gt; listProductsWithCategory(int categoryId) {
+<b class="fc">&nbsp;        return productRepository.findByCategoryId(categoryId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean linkProductsWithCategories(ProductWithCategory productWithCategory)
+&nbsp;    {
+<b class="fc">&nbsp;        Product product = productRepository.findById(productWithCategory.getProductId()).orElse(null);</b>
+<b class="fc">&nbsp;        if(product == null) return false;</b>
+<b class="fc">&nbsp;        product.setCategoryId(productWithCategory.getCategoryId());</b>
+<b class="fc">&nbsp;        productRepository.save(product);</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;// ...
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean updateProductByField(int id, Map&lt;String, Object&gt; updates) throws ProductException, NoSuchFieldException, IllegalAccessException {
+<b class="fc">&nbsp;        Product productForPatch = productRepository.findById(id).orElse(null);</b>
+<b class="fc">&nbsp;        if(productForPatch == null) return false;</b>
+<b class="fc">&nbsp;        for (Map.Entry&lt;String, Object&gt; entry : updates.entrySet()) {</b>
+<b class="fc">&nbsp;                Field field = productForPatch.getClass().getDeclaredField(entry.getKey());</b>
+<b class="fc">&nbsp;                field.setAccessible(true);</b>
+<b class="fc">&nbsp;                field.set(productForPatch, entry.getValue());</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        productRepository.save(productForPatch);</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Collection&lt;Product&gt; getProductsByField(Map&lt;String, Object&gt; fields) {
+<b class="fc">&nbsp;        if(fields.containsKey(&quot;categoryId&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return productRepository.findByCategoryId((Integer) fields.get(&quot;categoryId&quot;));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(fields.containsKey(&quot;name&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return productRepository.findByNameContaining((String) fields.get(&quot;name&quot;));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(fields.containsKey(&quot;description&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return productRepository.findByDescriptionContaining((String) fields.get(&quot;description&quot;));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(fields.containsKey(&quot;price&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return productRepository.findByPrice((Double) fields.get(&quot;price&quot;));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-21 10:10</div>
+</div>
+</body>
+</html>

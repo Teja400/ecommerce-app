@@ -1,0 +1,36 @@
+nav
+{
+  background-color: rgb(249, 218, 193);
+  border-bottom: 1.5px solid;
+  border-color: rgb(193, 146, 109);
+}
+
+
+/* Banner */
+.banner
+{
+  border: 2px solid;
+  border-color: #45447e;
+}
+
+.cart-btn
+{
+  width: 7%;
+}
+
+@media (max-width: 768px) {
+  .btn-responsive {
+    padding:6px 10px 6px 10px;
+    font-size:90%;
+    line-height: 1;
+    border-radius:3px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+  .btn-responsive {
+    padding:12px 16px;
+    font-size:95%;
+    line-height: 1.2;
+  }
+}

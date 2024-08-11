@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > CategoryServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.blueyonder.ecomapp.service</a>
+</div>
+
+<h1>Coverage Summary for Class: CategoryServiceImpl (com.blueyonder.ecomapp.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CategoryServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (31/31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.blueyonder.ecomapp.service;
+&nbsp;
+&nbsp;import com.blueyonder.ecomapp.dao.CategoryRepository;
+&nbsp;import com.blueyonder.ecomapp.exception.CategoryException;
+&nbsp;import com.blueyonder.ecomapp.model.Category;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.lang.reflect.Field;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collection;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class CategoryServiceImpl implements CategoryService</b>
+&nbsp;{
+&nbsp;    @Autowired
+&nbsp;    private CategoryRepository categoryRepository;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int createCategory(Category category) {
+<b class="fc">&nbsp;        return categoryRepository.save(category).getId();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Category viewCategory(int id)  {
+<b class="fc">&nbsp;        return categoryRepository.findById(id).orElse(null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Collection&lt;Category&gt; listCategories() {
+<b class="fc">&nbsp;        return categoryRepository.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean updateCategory(int id, Category category) {
+<b class="fc">&nbsp;        Category categoryForUpdate = categoryRepository.findById(id).orElse(null);</b>
+<b class="fc">&nbsp;        if(categoryForUpdate == null) return false;</b>
+<b class="fc">&nbsp;        categoryForUpdate.setName(category.getName());</b>
+<b class="fc">&nbsp;        categoryForUpdate.setDescription(category.getDescription());</b>
+<b class="fc">&nbsp;        categoryRepository.save(categoryForUpdate);</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean deleteCategory(int id) {
+<b class="fc">&nbsp;        Category categoryForDelete = categoryRepository.findById(id).orElse(null);</b>
+<b class="fc">&nbsp;        if(categoryForDelete == null) return false;</b>
+<b class="fc">&nbsp;        categoryRepository.deleteById(id);</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean updateCategoryByAnyField(int id, Map&lt;String, Object&gt; updates) throws NoSuchFieldException, IllegalAccessException {
+<b class="fc">&nbsp;        Category categoryForPatch = categoryRepository.findById(id).orElse(null);</b>
+<b class="fc">&nbsp;        if(categoryForPatch == null) return false;</b>
+<b class="fc">&nbsp;        for (Map.Entry&lt;String, Object&gt; entry : updates.entrySet()) {</b>
+<b class="fc">&nbsp;                Field field = categoryForPatch.getClass().getDeclaredField(entry.getKey());</b>
+<b class="fc">&nbsp;                field.setAccessible(true);</b>
+<b class="fc">&nbsp;                field.set(categoryForPatch, entry.getValue());</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        categoryRepository.save(categoryForPatch);</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Collection&lt;Category&gt; getCategoriesByField(Map&lt;String, Object&gt; fieldValues) {
+<b class="fc">&nbsp;        Collection&lt;Category&gt; filteredCategories = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;            if (fieldValues.containsKey(&quot;name&quot;)&amp;&amp; fieldValues.containsKey(&quot;description&quot;))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                return categoryRepository.findByNameContainingAndDescriptionContaining((String) fieldValues.get(&quot;name&quot;), (String) fieldValues.get(&quot;description&quot;));</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if(fieldValues.containsKey(&quot;name&quot;))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                return categoryRepository.findByNameContaining((String) fieldValues.get(&quot;name&quot;));</b>
+&nbsp;//                return categoryRepository.findByName((String) entry.getValue());
+&nbsp;//                return categoryRepository.findById((Integer) entry.getValue()).orElse(null).getProducts();
+&nbsp;            }
+<b class="fc">&nbsp;            else if(fieldValues.containsKey(&quot;description&quot;))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                return categoryRepository.findByDescriptionContaining((String) fieldValues.get(&quot;description&quot;));</b>
+&nbsp;
+&nbsp;            }
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-21 10:12</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ecomapp-registry-service
+server:
+  port: 8761
+
+# Eureka Client
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    registerWithEureka: false
+    fetchRegistry: false
